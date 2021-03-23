@@ -55,17 +55,23 @@ app.get("/api/workouts", (req, res) => {
     
     })
     .then(dbWorkout => {
-        // console.log("hello",dbWorkout)
         res.json(dbWorkout);
       })
     .catch(err => {
         res.json(err);
       });
-
-
   });
 
-
+  //exercise page -- add workout
+  app.post("/api/workouts", ({data}, res) => {
+    //console.log(req.params.id)
+    db.Workout.create(data)
+    .then(dbWorkout => {
+        console.log(dbWorkout)
+        console.log("hello")
+        res.json(dbWorkout);
+      })
+    })
 
 
 

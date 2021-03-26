@@ -19,8 +19,24 @@ app.use(express.static("public"));
 mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workout", { useNewUrlParser: true });
 
 //get last workout
-app.get("/api/workouts", (req, res) => {
-    db.Workout.find({})
+// app.get("/api/workouts", (req, res) => {
+//     db.Workout.find({})
+//       .then(dbWorkout => {
+//         console.log(dbWorkout)
+//         res.json(dbWorkout);
+//       })
+//       .catch(err => {
+//         res.json(err);
+//       });
+//   });
+  app.get("/api/workouts", (req, res) => {
+    db.Workout.aggregate([
+      {
+        $addFields: {
+          totalDuration: { $sum: "$exercises.duration"}
+        }
+      },
+   ])
       .then(dbWorkout => {
         console.log(dbWorkout)
         res.json(dbWorkout);
@@ -29,6 +45,20 @@ app.get("/api/workouts", (req, res) => {
         res.json(err);
       });
   });
+
+
+//get last workout
+app.get("/api/workouts/range", (req, res) => {
+  db.Workout.find({})
+    .then(dbWorkout => {
+      console.log(dbWorkout)
+      res.json(dbWorkout);
+    })
+    .catch(err => {
+      res.json(err);
+    });
+});
+
 
   //stats page
   app.get("/stats", (req, res) => {

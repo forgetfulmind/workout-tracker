@@ -87,6 +87,16 @@ app.get("/api/workouts/range", (req, res) => {
     res.sendFile(path.join(__dirname + '/public/exercise.html'));
   });
 
+    //index page
+    app.get("/", (req, res) => {
+      res.sendFile(path.join(__dirname + '/public/index.html'));
+    });
+
+        //index page
+        app.get("/index", (req, res) => {
+          res.sendFile(path.join(__dirname + '/public/index.html'));
+        });
+
   //exercise page -- add exercise
   app.put("/api/workouts/:id", (req, res) => {
     console.log(req.params.id)
